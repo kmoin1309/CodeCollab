@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  mongo:
+    image: mongo:latest
+    container_name: mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+  redis:
+    image: "redis:latest"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+
+  server:
+    build:
+      context: ./apps/server  # Adjust path to match your server app location
+      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/server
+    container_name: server
+    depends_on:
+      - redis
+      - mongo
+    environment:
+      - MONGO_URL=mongodb://mongo:27017/your_database_name
+      - REDIS_URL=redis://redis:6379
+    ports:
+      - "8080:8080"
+
+  worker:
+    build:
+      context: ./apps/worker  # Adjust path to match your worker app location
+      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/worker
+    container_name: worker
+    depends_on:
+      - redis
+      - server
+    environment:
+      - REDIS_URL=redis://redis:6379
+
+  client:
+    build:
+      context: ./apps/client  # Adjust path to match your client app location
+      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/client
+    container_name: client
+    depends_on:
+      - server
+    ports:
+      - "5173:5173"  # Adjust port if necessary for client app
+
+networks:
+  my-network:
+    driver: bridge
+
+volumes:
+  redis-data:
+  mongo-data:
