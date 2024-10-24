@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   mongo:
     image: mongo:latest
@@ -19,8 +17,8 @@ services:
 
   server:
     build:
-      context: ./apps/server  # Adjust path to match your server app location
-      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/server
+      context: ./apps/server
+      dockerfile: Dockerfile
     container_name: server
     depends_on:
       - redis
@@ -33,8 +31,8 @@ services:
 
   worker:
     build:
-      context: ./apps/worker  # Adjust path to match your worker app location
-      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/worker
+      context: ./apps/worker
+      dockerfile: Dockerfile
     container_name: worker
     depends_on:
       - redis
@@ -44,13 +42,13 @@ services:
 
   client:
     build:
-      context: ./apps/client  # Adjust path to match your client app location
-      dockerfile: Dockerfile  # Make sure Dockerfile exists in ./apps/client
+      context: ./apps/client
+      dockerfile: Dockerfile
     container_name: client
     depends_on:
       - server
     ports:
-      - "5173:5173"  # Adjust port if necessary for client app
+      - "5173:5173"
 
 networks:
   my-network:
