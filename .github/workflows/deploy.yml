@@ -56,4 +56,14 @@ jobs:
         docker-compose -f ./docker-compose.yml build
         docker-compose -f ./docker-compose.yml push
 
-    -
+    - name: Start Docker Compose services
+      run: docker-compose -f ./docker-compose.yml up -d
+
+    - name: Run tests
+      run: |
+        # Placeholder for your tests
+        echo "Running tests..."
+
+    - name: Stop Docker Compose services
+      if: always()
+      run: docker-compose -f ./docker-compose.yml down
