@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   mongo:
     image: mongo:latest
@@ -17,7 +19,7 @@ services:
 
   server:
     build:
-      context: ./apps/server
+      context: ./apps/Server  # Adjusted path to match the correct casing
       dockerfile: Dockerfile
     container_name: server
     depends_on:
@@ -31,7 +33,7 @@ services:
 
   worker:
     build:
-      context: ./apps/worker
+      context: ./apps/Worker  # Adjusted path to match the correct casing
       dockerfile: Dockerfile
     container_name: worker
     depends_on:
@@ -42,13 +44,13 @@ services:
 
   client:
     build:
-      context: ./apps/client
+      context: ./apps/Client  # Adjusted path to match the correct casing
       dockerfile: Dockerfile
     container_name: client
     depends_on:
       - server
     ports:
-      - "5173:5173"
+      - "5173:5173"  # Adjust port if necessary for client app
 
 networks:
   my-network:
