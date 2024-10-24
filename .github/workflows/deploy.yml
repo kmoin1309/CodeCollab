@@ -50,6 +50,7 @@ jobs:
 
     - name: Run tests
       run: |
+        # Testing CI/CD
         echo "Running tests..."
 
     - name: Stop Docker Compose services
