@@ -27,6 +27,9 @@ jobs:
       run: |
         pwd
         ls -al  # List all files in the directory to confirm paths
+        
+    - name: List apps directory
+      run: ls -R ./apps  # List contents of the apps directory
 
     - name: Set up Docker Buildx
       uses: docker/setup-buildx-action@v2
